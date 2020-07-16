@@ -32,7 +32,7 @@
       "label": "Fields to get from the annotated vcf",
       "class": "string",
       "optional": false,
-      "help": "Comma separated like \"ID,QUAL,+TAG\", \"+\" is to add the fields if not present already"
+      "help": "Comma separated like 'ID,QUAL,+TAG', '+' is to add the fields if not present already"
     }
   ],
   "outputSpec": [
