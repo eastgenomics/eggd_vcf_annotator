@@ -1,0 +1,70 @@
+{
+  "name": "vcf_annotator_v1.0.0",
+  "title": "vcf_annotator",
+  "summary": "Using one source vcf, annotate another vcf.",
+  "dxapi": "1.0.0",
+  "version": "1.0.0",
+  "inputSpec": [
+    {
+      "name": "raw_vcf",
+      "label": "VCF to annotate",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        ".vcf",
+        ".vcf.gz"
+      ],
+      "help": ""
+    },
+    {
+      "name": "src_vcf",
+      "label": "VCF containing annotation",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        ".vcf",
+        ".vcf.gz"
+      ],
+      "help": ""
+    },
+    {
+      "name": "fields",
+      "label": "Fields to get from the annotated vcf",
+      "class": "string",
+      "optional": false,
+      "help": "Comma separated like \"ID,QUAL,+TAG\", \"+\" is to add the fields if not present already"
+    }
+  ],
+  "outputSpec": [
+    {
+      "name": "annotated_vcf",
+      "label": "VCF annotated with the fields specified",
+      "class": "file",
+      "patterns": [
+        ".vcf.gz"
+      ],
+      "help": ""
+    }
+  ],
+  "runSpec": {
+    "timeoutPolicy": {
+      "*": {
+        "hours": 2
+      }
+    },
+    "interpreter": "bash",
+    "release": "16.04",
+    "distribution": "Ubuntu",
+    "file": "src/vcf_annotator.sh",
+    "version": "1"
+  },
+  "regionalOptions": {
+    "aws:eu-central-1": {
+      "systemRequirements": {
+        "*": {
+          "instanceType": "mem1_ssd1_v2_x4"
+        }
+      }
+    }
+  }
+}
