@@ -4,6 +4,9 @@
   "summary": "Using one source vcf, annotate another vcf.",
   "dxapi": "1.0.0",
   "version": "1.0.0",
+  "properties": {
+    "githubRelease": "v1.0.0"
+  },
   "inputSpec": [
     {
       "name": "raw_vcf",
@@ -11,8 +14,8 @@
       "class": "file",
       "optional": false,
       "patterns": [
-        ".vcf",
-        ".vcf.gz"
+        "*.vcf",
+        "*.vcf.gz"
       ],
       "help": ""
     },
@@ -22,8 +25,8 @@
       "class": "file",
       "optional": false,
       "patterns": [
-        ".vcf",
-        ".vcf.gz"
+        "*.vcf",
+        "*.vcf.gz"
       ],
       "help": ""
     },
@@ -33,6 +36,13 @@
       "class": "string",
       "optional": false,
       "help": "Comma separated like 'ID,QUAL,+TAG', '+' is to add the fields if not present already"
+    },
+    {
+      "name": "output_suffix",
+      "label": "Output prefix",
+      "class": "string",
+      "optional": true,
+      "help": "Output prefix to add to the output, default is 'annotated'"
     }
   ],
   "outputSpec": [
@@ -41,7 +51,7 @@
       "label": "VCF annotated with the fields specified",
       "class": "file",
       "patterns": [
-        ".vcf.gz"
+        "*.vcf.gz"
       ],
       "help": ""
     }
