@@ -7,6 +7,11 @@ main() {
     echo "Value of raw_vcf: '$raw_vcf'"
     echo "Value of src_vcf: '$src_vcf'"
     echo "Value of fields: '$fields'"
+    if [ -z ${output_suffix+x} ]; then
+        output_suffix="annotated"
+    fi
+
+    echo "Value of output_suffix: '$output_suffix'"
 
     dx download "$raw_vcf"
     dx download "$src_vcf"
@@ -27,7 +32,7 @@ main() {
     bcftools index ${src_vcf_name}
 
     basename=$(echo $raw_vcf_name | cut -d"." -f1)
-    annotated_vcf_file=${basename}_annotated.vcf
+    annotated_vcf_file=${basename}_${output_suffix}.vcf
     annotated_vcf_bgzip_file=${annotated_vcf_file}.gz
 
     bcftools annotate -a $src_vcf_name -c $fields ${raw_vcf_name}.gz > $annotated_vcf_file
