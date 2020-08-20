@@ -1,11 +1,11 @@
 {
-  "name": "vcf_annotator_v1.0.0",
+  "name": "vcf_annotator_v1.1.0",
   "title": "vcf_annotator",
   "summary": "Using one source vcf, annotate another vcf.",
   "dxapi": "1.0.0",
   "version": "1.0.0",
   "properties": {
-    "githubRelease": "v1.0.0"
+    "githubRelease": "v1.1.0"
   },
   "inputSpec": [
     {
