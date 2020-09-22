@@ -44,7 +44,7 @@ main() {
     IFS=","
     for field in $fields; do
         if [[ $field != *":="* ]]; then
-            field_to_add="EGG_${field}:=${field}"
+            field_to_add="EGGD_${field}:=${field}"
         else
             field_to_add=$field
         fi
