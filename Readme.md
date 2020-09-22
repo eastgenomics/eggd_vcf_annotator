@@ -21,14 +21,14 @@ Be sure that the src_vcf is bgzipped using:
 - `bgzip src_vcf`
 - `bcftools view src_vcf -Oz`
 
-## What does this app output?
-
-This app outputs a bgzipped VCF file.
-
 Example cmd line:
 
 ``` bash
 dx run vcf_annotator -iraw_vcf=raw.vcf -isrc_vcf=src.vcf -ifields="ID,QUAL,+TAG" -o annotated.vcf.gz
 ```
+
+## What does this app output?
+
+This app outputs a bgzipped VCF file. The new fields in the vcf will be prefixed by "EGGD"
 
 ### This app was made by EMEE GLH
