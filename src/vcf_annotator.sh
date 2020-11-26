@@ -18,7 +18,7 @@ main() {
 
     # Compile bcftools
     tar xvjf bcftools-1.10.2.tar.bz2
-    
+
     cd bcftools-1.10.2
 
     ./configure
@@ -48,7 +48,7 @@ main() {
         else
             field_to_add=$field
         fi
-        
+
         fields_array+=($field_to_add)
     done
 
