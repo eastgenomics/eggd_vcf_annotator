@@ -17,9 +17,9 @@ main() {
     dx download "$src_vcf"
 
     # Compile bcftools
-    tar xvjf bcftools-1.10.2.tar.bz2
+    tar xvjf bcftools-1.14.tar.bz2
 
-    cd bcftools-1.10.2
+    cd bcftools-1.14
 
     ./configure
     make
