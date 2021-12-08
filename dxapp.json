@@ -29,6 +29,12 @@
         "*.vcf",
         "*.vcf.gz"
       ],
+      "suggestions": [
+        {
+          "project": "project-Fkb6Gkj433GVVvj73J7x8KbV",
+          "path": "/annotation/b37/"
+        }
+      ],
       "help": ""
     },
     {
