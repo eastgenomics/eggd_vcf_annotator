@@ -25,6 +25,8 @@ Example cmd line:
 
 ``` bash
 dx run vcf_annotator -iraw_vcf=raw.vcf -isrc_vcf=src.vcf -ifields="ID,QUAL,+TAG" -o annotated.vcf.gz
+
+dx run vcf_annotator -iraw_vcf=raw.vcf -isrc_vcf=src.vcf -ifields="TAG_RENAMED:=TAG" -o annotated.vcf.gz
 ```
 
 ## What does this app output?
