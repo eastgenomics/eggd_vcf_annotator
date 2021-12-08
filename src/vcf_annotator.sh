@@ -8,7 +8,7 @@ main() {
     echo "Value of src_vcf: '$src_vcf'"
     echo "Value of fields: '$fields'"
     if [ -z ${output_suffix+x} ]; then
-        output_suffix="annotated"
+        output_suffix="custom_annotated"
     fi
 
     echo "Value of output_suffix: '$output_suffix'"
