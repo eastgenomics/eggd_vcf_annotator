@@ -17,7 +17,7 @@ main() {
     dx download "$src_vcf"
 
     # Compile bcftools
-    tar xvjf bcftools-1.14.tar.bz2
+    tar xjf bcftools-1.14.tar.bz2
 
     cd bcftools-1.14
 
@@ -27,17 +27,19 @@ main() {
 
     cd ..
 
+    # get nb of cpus
+    nb_cpus=$(grep -c ^processor /proc/cpuinfo)
+
     # Bgzip the raw vcf
-    bcftools view $raw_vcf_name -Oz > ${raw_vcf_name}.gz
+    bcftools view --threads $nb_cpus $raw_vcf_name -Oz > ${raw_vcf_name}.gz
 
     # Index both given vcfs
-    bcftools index ${raw_vcf_name}.gz
-    bcftools index ${src_vcf_name}
+    bcftools index --threads $nb_cpus ${raw_vcf_name}.gz
+    bcftools index --threads $nb_cpus ${src_vcf_name}
 
     # define file output name
     basename=$(echo $raw_vcf_name | cut -d"." -f1)
     annotated_vcf_file=${basename}_${output_suffix}.vcf
-    annotated_vcf_bgzip_file=${annotated_vcf_file}.gz
 
     # add prefix to fields that need them
     fields_array=()
@@ -56,10 +58,9 @@ main() {
     IFS=""
 
     # Annotate and bgzip output
-    bcftools annotate -a $src_vcf_name -c $new_fields ${raw_vcf_name}.gz > $annotated_vcf_file
-    bcftools view ${annotated_vcf_file} -Oz > $annotated_vcf_bgzip_file
+    bcftools annotate -a $src_vcf_name -c $new_fields --threads $nb_cpus ${raw_vcf_name}.gz > $annotated_vcf_file
 
-    annotated_vcf=$(dx upload $annotated_vcf_bgzip_file --brief)
+    annotated_vcf=$(dx upload $annotated_vcf_file --brief)
 
     dx-jobutil-add-output annotated_vcf "$annotated_vcf" --class=file
 }
