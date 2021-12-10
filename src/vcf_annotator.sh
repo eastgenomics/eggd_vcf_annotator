@@ -16,17 +16,6 @@ main() {
     dx download "$raw_vcf"
     dx download "$src_vcf"
 
-    # Compile bcftools
-    tar xjf bcftools-1.14.tar.bz2
-
-    cd bcftools-1.14
-
-    ./configure
-    make
-    make install
-
-    cd ..
-
     # get nb of cpus
     nb_cpus=$(grep -c ^processor /proc/cpuinfo)
 
