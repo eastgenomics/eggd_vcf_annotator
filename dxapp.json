@@ -1,0 +1,96 @@
+{
+  "name": "eggd_vcf_annotator",
+  "title": "eggd_VCF_annotator",
+  "summary": "Using one source vcf, annotate another vcf",
+  "dxapi": "1.0.0",
+  "version": "1.0.0",
+  "authorizedUsers": ["org-emee_1"],
+  "developers":["org-emee_1"],
+  "properties": {
+    "githubRelease": "v1.0.0"
+  },
+  "inputSpec": [
+    {
+      "name": "raw_vcf",
+      "label": "VCF to annotate",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.vcf",
+        "*.vcf.gz"
+      ],
+      "help": ""
+    },
+    {
+      "name": "src_vcf",
+      "label": "VCF containing annotation",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.vcf",
+        "*.vcf.gz"
+      ],
+      "suggestions": [
+        {
+          "project": "project-Fkb6Gkj433GVVvj73J7x8KbV",
+          "path": "/annotation/b37/"
+        }
+      ],
+      "help": ""
+    },
+    {
+      "name": "fields",
+      "label": "Fields to get from the annotated vcf",
+      "class": "string",
+      "optional": false,
+      "help": "Comma separated like 'ID,QUAL,+TAG', '+' is to add the fields if not present already"
+    },
+    {
+      "name": "output_suffix",
+      "label": "Output prefix",
+      "class": "string",
+      "optional": true,
+      "help": "Output prefix to add to the output, default is 'annotated'"
+    }
+  ],
+  "outputSpec": [
+    {
+      "name": "annotated_vcf",
+      "label": "VCF annotated with the fields specified",
+      "class": "file",
+      "patterns": [
+        "*.vcf.gz"
+      ],
+      "help": ""
+    }
+  ],
+  "runSpec": {
+    "timeoutPolicy": {
+      "*": {
+        "hours": 4
+      }
+    },
+    "interpreter": "bash",
+    "release": "20.04",
+    "distribution": "Ubuntu",
+    "file": "src/vcf_annotator.sh",
+    "version": "0",
+    "assetDepends": [
+      {
+        "name": "htslib",
+        "version": "1.14.0",
+        "project": "project-Fkb6Gkj433GVVvj73J7x8KbV",
+        "folder": "/app_assets/htslib/htslib_v1.14.0"
+      }
+    ]
+  },
+  "regionalOptions": {
+    "aws:eu-central-1": {
+      "systemRequirements": {
+        "*": {
+          "instanceType": "mem1_ssd1_v2_x8"
+        }
+      }
+    }
+  }
+}
