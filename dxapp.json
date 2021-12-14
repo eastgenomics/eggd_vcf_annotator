@@ -39,6 +39,13 @@
       "help": ""
     },
     {
+      "name": "reference_genome",
+      "label": "Ref used to map vcf",
+      "class": "file",
+      "optional": false,
+      "help": "Reference genome used to map the reads used in the VCF. NEEDS TO BE SPLIT ON MULTI ALLELIC"
+    },
+    {
       "name": "fields",
       "label": "Fields to get from the annotated vcf",
       "class": "string",
