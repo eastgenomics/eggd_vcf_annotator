@@ -6,7 +6,9 @@ main() {
 
     echo "Value of raw_vcf: '$raw_vcf'"
     echo "Value of src_vcf: '$src_vcf'"
+    echo "Value of reference_genome: '$reference_genome'"
     echo "Value of fields: '$fields'"
+
     if [ -z ${output_suffix+x} ]; then
         output_suffix="custom_annotated"
     fi
@@ -15,6 +17,7 @@ main() {
 
     dx download "$raw_vcf"
     dx download "$src_vcf"
+    dx download "$reference_genome"
 
     # get nb of cpus
     nb_cpus=$(grep -c ^processor /proc/cpuinfo)
@@ -46,8 +49,14 @@ main() {
     new_fields=$(IFS=","; echo "${fields_array[*]}")
     IFS=""
 
+    # split multi allelic in raw vcf
+    bcftools norm --threads $nb_cpus -f $reference_genome_name -m -both $src_vcf_name > splitted_raw.vcf
+
     # Annotate and bgzip output
-    bcftools annotate -a $src_vcf_name -c $new_fields --threads $nb_cpus ${raw_vcf_name}.gz > $annotated_vcf_file
+    bcftools annotate --threads $nb_cpus -a $src_vcf_name -c $new_fields splitted_raw.vcf > splitted_annotated_raw.vcf
+
+    # join multi allelic back
+    bcftools norm --threads $nb_cpus -f $reference_genome_name -m +both splitted_annotated_raw.vcf > $annotated_vcf_file
 
     annotated_vcf=$(dx upload $annotated_vcf_file --brief)
 
