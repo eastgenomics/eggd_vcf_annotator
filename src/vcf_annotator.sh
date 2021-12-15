@@ -33,7 +33,7 @@ main() {
     basename=$(echo $raw_vcf_name | cut -d"." -f1)
     annotated_vcf_file=${basename}_${output_suffix}.vcf
 
-    # add prefix to fields that need them
+    # add EGGD_ prefix to fields unless explicitly renamed otherwise
     fields_array=()
     IFS=","
     for field in $fields; do
@@ -49,14 +49,15 @@ main() {
     new_fields=$(IFS=","; echo "${fields_array[*]}")
     IFS=""
 
-    # split multi allelic in raw vcf
-    bcftools norm --threads $nb_cpus -f $reference_genome_name -m -both $src_vcf_name > splitted_raw.vcf
+    # decompose/normalise/left align raw vcf
+    bcftools norm --threads $nb_cpus -f $reference_genome_name -m -any $raw_vcf_name > decom_norm_raw.vcf
 
     # Annotate and bgzip output
-    bcftools annotate --threads $nb_cpus -a $src_vcf_name -c $new_fields splitted_raw.vcf > splitted_annotated_raw.vcf
+    bcftools annotate --threads $nb_cpus -a $src_vcf_name -c $new_fields decom_norm_raw.vcf > decom_norm_raw_annoated.vcf
 
     # join multi allelic back
-    bcftools norm --threads $nb_cpus -f $reference_genome_name -m +both splitted_annotated_raw.vcf > $annotated_vcf_file
+    #mv decom_norm_raw_annoated.vcf $annotated_vcf_file
+    bcftools norm --threads $nb_cpus -f $reference_genome_name -m +any decom_norm_raw_annoated.vcf > $annotated_vcf_file
 
     annotated_vcf=$(dx upload $annotated_vcf_file --brief)
 
