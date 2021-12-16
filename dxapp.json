@@ -11,12 +11,11 @@
   },
   "inputSpec": [
     {
-      "name": "raw_vcf",
+      "name": "dest_vcf",
       "label": "VCF to annotate",
       "class": "file",
       "optional": false,
       "patterns": [
-        "*.vcf",
         "*.vcf.gz"
       ],
       "help": ""
@@ -27,7 +26,6 @@
       "class": "file",
       "optional": false,
       "patterns": [
-        "*.vcf",
         "*.vcf.gz"
       ],
       "suggestions": [
@@ -36,14 +34,33 @@
           "path": "/annotation/b37/"
         }
       ],
-      "help": ""
+      "help": "Source vcf must be decomposed/normalised/left-aligned"
     },
     {
-      "name": "reference_genome",
-      "label": "Ref used to map vcf",
+      "name": "src_vcf_idx",
+      "label": "Index of VCF containing annotation",
       "class": "file",
       "optional": false,
-      "help": "Reference genome used to map the reads used in the VCF. NEEDS TO BE SPLIT ON MULTI ALLELIC"
+      "patterns": [
+        "*.vcf.gz.tbi"
+      ],
+      "suggestions": [
+        {
+          "project": "project-Fkb6Gkj433GVVvj73J7x8KbV",
+          "path": "/annotation/b37/"
+        }
+      ],
+      "help": "Source vcf must be decomposed/normalised/left-aligned"
+    },
+    {
+      "name": "ref_tar",
+      "label": "Reference genome fasta and index",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.fasta-index.tar.gz"
+      ],
+      "help": "tar.gz containing genome.fa and genome.fa.fai. Must match reference genome build used to in dest_vcf."
     },
     {
       "name": "fields",
@@ -67,6 +84,15 @@
       "class": "file",
       "patterns": [
         "*.vcf.gz"
+      ],
+      "help": ""
+    },
+    {
+      "name": "annotated_vcf_index",
+      "label": "tbi for annotated_vcf",
+      "class": "file",
+      "patterns": [
+        "*.vcf.gz.tbi"
       ],
       "help": ""
     }
