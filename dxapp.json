@@ -75,7 +75,7 @@
       "label": "Output prefix",
       "class": "string",
       "optional": true,
-      "help": "Output prefix to add to the output, default is 'annotated'"
+      "help": "Output prefix to add to the output, default is 'custom_annotated'"
     }
   ],
   "outputSpec": [
