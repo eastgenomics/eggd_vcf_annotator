@@ -28,24 +28,9 @@ main() {
     # Unpack reference genome tar
     tar xzf $ref_tar_name
 
-    # Fix issue where vcfs have CSQ with no value, which causes bcftools norm
-    # to fail. To fix this we change these to CSQ=.
-    # CSQ is always the last field with input from nirvana2vcf so only
-    # one sed pattern needed
-    
-    zcat $dest_vcf | \
-    # CSQ is 1st INFO field
-    sed s/"\\tCSQ;"/"\\tCSQ=.;"/g | \
-    # CSQ is mid INFO field
-    sed s/";CSQ;"/";CSQ=.;"/g | \
-    # CSQ is last INFO field
-    sed s/";CSQ\\t"/";CSQ=.\t"/g \
-    > csq_fix.vcf
-    bgzip csq_fix.vcf
-
     # Get nb of cpus to inform bcftools thread count
     nb_cpus=$(grep -c ^processor /proc/cpuinfo)
-    
+
     # Add EGGD_ prefix to INFO fields unless explicitly renamed otherwise
     fields_array=()
     IFS=","
@@ -55,13 +40,34 @@ main() {
         else
             field_to_add=$field
         fi
-
         fields_array+=($field_to_add)
     done
 
     new_fields=$(IFS=","; echo "${fields_array[*]}")
     IFS=""
-    
+
+    # Decompress if input vcf is vcf.gz
+    if [[ $dest_vcf_name == *.vcf.gz ]]; then
+        zcat $dest_vcf_name > dest.vcf
+    else
+        mv $dest_vcf_name dest.vcf
+    fi
+
+    # Fix issue where vcfs have CSQ with no value, which causes bcftools norm
+    # to fail. To fix this we change these to CSQ=.
+    # CSQ is always the last field with input from nirvana2vcf so only
+    # one sed pattern needed
+
+    cat dest.vcf | \
+    # CSQ is 1st INFO field
+    sed s/"\\tCSQ;"/"\\tCSQ=.;"/g | \
+    # CSQ is mid INFO field
+    sed s/";CSQ;"/";CSQ=.;"/g | \
+    # CSQ is last INFO field
+    sed s/";CSQ\\t"/";CSQ=.\t"/g \
+    > csq_fix.vcf
+    bgzip csq_fix.vcf
+
     # Define file output name
     basename=$(echo $dest_vcf_name | cut -d"." -f1)
     annotated_vcf_file=${basename}_${output_suffix}.vcf.gz
@@ -79,7 +85,7 @@ main() {
     # Merge multi-allelic variants back into single records
     bcftools norm --threads $nb_cpus -f genome.fa -m +any \
      decom_norm_raw_annotated.vcf.gz -Oz > $annotated_vcf_file
-    bcftools index --threads $nb_cpus -tbi $annotated_vcf_file
+    bcftools index --threads $nb_cpus --tbi $annotated_vcf_file
 
     # Note that the split and merge operation produces a minor change in the
     #  output vcf in addition to the requested annotation.
