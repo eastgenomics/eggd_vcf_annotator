@@ -33,6 +33,7 @@ main() {
 
     # Add EGGD_ prefix to INFO fields unless explicitly renamed otherwise
     fields_array=()
+    OLD_IFS=$IFS
     IFS=","
     for field in $fields; do
         if [[ $field != *":="* ]]; then
@@ -44,7 +45,7 @@ main() {
     done
 
     new_fields=$(IFS=","; echo "${fields_array[*]}")
-    IFS=""
+    IFS=$OLDIFS
 
     # Decompress if input vcf is vcf.gz
     if [[ $dest_vcf_name == *.vcf.gz ]]; then
@@ -77,9 +78,9 @@ main() {
      csq_fix.vcf.gz > decom_norm_raw.vcf.gz
     bcftools index --threads $nb_cpus decom_norm_raw.vcf.gz
 
-    # Annotate and bgzip output
+    # Annotate with PASS variants and bgzip output
     bcftools annotate --threads $nb_cpus -a $src_vcf_name -c $new_fields \
-     decom_norm_raw.vcf.gz -Oz > decom_norm_raw_annotated.vcf.gz
+     -i FILTER="PASS" decom_norm_raw.vcf.gz -Oz > decom_norm_raw_annotated.vcf.gz
     bcftools index --threads $nb_cpus decom_norm_raw_annotated.vcf.gz
 
     # Merge multi-allelic variants back into single records

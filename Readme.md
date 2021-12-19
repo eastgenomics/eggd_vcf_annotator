@@ -31,6 +31,8 @@ dx run vcf_annotator -iraw_vcf=raw.vcf -isrc_vcf=src.vcf -ifields="TAG_RENAMED:=
 
 ## What does this app output?
 
-This app outputs a bgzipped VCF file. The new fields in the vcf will be prefixed by "EGGD"
+This app outputs a bgzipped VCF file. The new fields in the vcf will be prefixed by "EGGD" unless specifically named otherwise in `fields` input.
+
+Important note: Only `FILTER=PASS` variants from the src vcf will be annotated in the output vcf
 
 ### This app was made by EMEE GLH
