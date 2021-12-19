@@ -80,7 +80,7 @@ main() {
 
     # Annotate with PASS variants and bgzip output
     bcftools annotate --threads $nb_cpus -a $src_vcf_name -c $new_fields \
-     -i FILTER="PASS" decom_norm_raw.vcf.gz -Oz > decom_norm_raw_annotated.vcf.gz
+     -i 'FILTER="PASS"' decom_norm_raw.vcf.gz -Oz > decom_norm_raw_annotated.vcf.gz
     bcftools index --threads $nb_cpus decom_norm_raw_annotated.vcf.gz
 
     # Merge multi-allelic variants back into single records
