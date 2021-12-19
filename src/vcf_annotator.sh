@@ -45,7 +45,7 @@ main() {
     done
 
     new_fields=$(IFS=","; echo "${fields_array[*]}")
-    IFS=$OLDIFS
+    IFS=$OLD_IFS
 
     # Decompress if input vcf is vcf.gz
     if [[ $dest_vcf_name == *.vcf.gz ]]; then
