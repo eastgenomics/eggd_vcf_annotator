@@ -33,6 +33,6 @@ dx run vcf_annotator -iraw_vcf=raw.vcf -isrc_vcf=src.vcf -ifields="TAG_RENAMED:=
 
 This app outputs a bgzipped VCF file. The new fields in the vcf will be prefixed by "EGGD" unless specifically named otherwise in `fields` input.
 
-Important note: Only `FILTER=PASS` variants from the src vcf will be annotated in the output vcf
+Important note: Annotation from all variants in the src vcf will be added to variants in the output vcf. This means for example that variants with a non-PASS FILTER value will still be used to provide annotation. Therefore if the intention is that annotation should only be applied from a subset of src vcf varaints (e.g. those with FILTER=PASS) then the src vcf must be pre-filtered to contain only these variants before it is passed to this applet.
 
 ### This app was made by EMEE GLH
