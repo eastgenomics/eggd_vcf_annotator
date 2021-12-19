@@ -1,6 +1,6 @@
 {
-  "name": "eggd_vcf_annotator",
-  "title": "eggd_vcf_annotator",
+  "name": "eggd_vcf_annotator_v1.1.0",
+  "title": "eggd_vcf_annotator_v1.1.0",
   "summary": "Using one source vcf, annotate another vcf",
   "dxapi": "1.0.0",
   "version": "1.1.0",
