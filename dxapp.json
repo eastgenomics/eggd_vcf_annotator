@@ -1,23 +1,23 @@
 {
-  "name": "eggd_vcf_annotator",
-  "title": "eggd_VCF_annotator",
+  "name": "eggd_vcf_annotator_v1.1.0",
+  "title": "eggd_vcf_annotator_v1.1.0",
   "summary": "Using one source vcf, annotate another vcf",
   "dxapi": "1.0.0",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "authorizedUsers": ["org-emee_1"],
   "developers":["org-emee_1"],
   "properties": {
-    "githubRelease": "v1.0.0"
+    "githubRelease": "v1.1.0"
   },
   "inputSpec": [
     {
-      "name": "raw_vcf",
+      "name": "dest_vcf",
       "label": "VCF to annotate",
       "class": "file",
       "optional": false,
       "patterns": [
-        "*.vcf",
-        "*.vcf.gz"
+        "*.vcf.gz",
+        "*.vcf"
       ],
       "help": ""
     },
@@ -27,7 +27,6 @@
       "class": "file",
       "optional": false,
       "patterns": [
-        "*.vcf",
         "*.vcf.gz"
       ],
       "suggestions": [
@@ -36,7 +35,33 @@
           "path": "/annotation/b37/"
         }
       ],
-      "help": ""
+      "help": "Source vcf must be decomposed/normalised/left-aligned"
+    },
+    {
+      "name": "src_vcf_idx",
+      "label": "Index of VCF containing annotation",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.vcf.gz.tbi"
+      ],
+      "suggestions": [
+        {
+          "project": "project-Fkb6Gkj433GVVvj73J7x8KbV",
+          "path": "/annotation/b37/"
+        }
+      ],
+      "help": "Source vcf must be decomposed/normalised/left-aligned"
+    },
+    {
+      "name": "ref_tar",
+      "label": "Reference genome fasta and index",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.fasta-index.tar.gz"
+      ],
+      "help": "tar.gz containing genome.fa and genome.fa.fai. Must match reference genome build used to in dest_vcf."
     },
     {
       "name": "fields",
@@ -50,7 +75,7 @@
       "label": "Output prefix",
       "class": "string",
       "optional": true,
-      "help": "Output prefix to add to the output, default is 'annotated'"
+      "help": "Output prefix to add to the output, default is 'custom_annotated'"
     }
   ],
   "outputSpec": [
@@ -60,6 +85,15 @@
       "class": "file",
       "patterns": [
         "*.vcf.gz"
+      ],
+      "help": ""
+    },
+    {
+      "name": "annotated_vcf_index",
+      "label": "tbi for annotated_vcf",
+      "class": "file",
+      "patterns": [
+        "*.vcf.gz.tbi"
       ],
       "help": ""
     }
