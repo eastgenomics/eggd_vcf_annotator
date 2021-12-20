@@ -59,14 +59,15 @@ main() {
     # CSQ is always the last field with input from nirvana2vcf so only
     # one sed pattern needed
 
-    cat dest.vcf | \
-    # CSQ is 1st INFO field
-    sed s/"\\tCSQ;"/"\\tCSQ=.;"/g | \
-    # CSQ is mid INFO field
-    sed s/";CSQ;"/";CSQ=.;"/g | \
-    # CSQ is last INFO field
-    sed s/";CSQ\\t"/";CSQ=.\t"/g \
-    > csq_fix.vcf
+    cat dest.vcf \
+        # CSQ is 1st INFO field
+        | sed s/"\\tCSQ;"/"\\tCSQ=.;"/g \
+        # CSQ is mid INFO field
+        | sed s/";CSQ;"/";CSQ=.;"/g \
+        # CSQ is last INFO field
+        | sed s/";CSQ\\t"/";CSQ=.\t"/g \
+        > csq_fix.vcf
+
     bgzip csq_fix.vcf
 
     # Define file output name
@@ -91,9 +92,9 @@ main() {
     # Note that the split and merge operation produces a minor change in the
     #  output vcf in addition to the requested annotation.
     #
-    # PL for the called genotype is 0 in the input vcf, however for 
-    #  multi-allelic calls this information is lost during the split/merge 
-    #  operation since no single vcf record contains the called genotype 
+    # PL for the called genotype is 0 in the input vcf, however for
+    #  multi-allelic calls this information is lost during the split/merge
+    #  operation since no single vcf record contains the called genotype
     #  (i.e. 1/2) after the split, and so it cannot be restored in the merge
     #
     # Consequently PL of the called genotype becomes . in the output vcf
