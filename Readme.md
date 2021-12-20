@@ -12,7 +12,7 @@ This app may be executed as a standalone app. One use case would be to add clinv
 ## What data are required for this app to run ?
 
 This app requires 2 VCFs and a string to run.  
-The first vcf is the one you want to annotate. The second is the VCF containing the annotation which MUST be decomposed/normalised/left-aligned. 
+The first vcf is the one you want to annotate. The second is the VCF containing the annotation which MUST be decomposed/normalised/left-aligned.
 
 The fields input follows the following snippet from the bcftools documentation (http://samtools.github.io/bcftools/bcftools.html#annotate):
 
