@@ -59,14 +59,14 @@ main() {
     # CSQ is always the last field with input from nirvana2vcf so only
     # one sed pattern needed
 
-    cat dest.vcf \
-        # CSQ is 1st INFO field
-        | sed s/"\\tCSQ;"/"\\tCSQ=.;"/g \
-        # CSQ is mid INFO field
-        | sed s/";CSQ;"/";CSQ=.;"/g \
-        # CSQ is last INFO field
-        | sed s/";CSQ\\t"/";CSQ=.\t"/g \
-        > csq_fix.vcf
+    cat dest.vcf | \
+    # CSQ is 1st INFO field
+    sed s/"\\tCSQ;"/"\\tCSQ=.;"/g | \
+    # CSQ is mid INFO field
+    sed s/";CSQ;"/";CSQ=.;"/g | \
+    # CSQ is last INFO field
+    sed s/";CSQ\\t"/";CSQ=.\t"/g \
+    > csq_fix.vcf
 
     bgzip csq_fix.vcf
 
